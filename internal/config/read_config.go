@@ -41,7 +41,13 @@ func getConfigFilePath() (string, error) {
 
 func (cfg *Config) SetUser(username string) error {
 	cfg.CurrentUser = username
-	return write(*cfg)
+	err := write(*cfg)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
 
 func write(cfg Config) error {
