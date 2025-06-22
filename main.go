@@ -8,6 +8,7 @@ import (
 	"github.com/datsun80zx/go_rss_aggregator.git/internal"
 	"github.com/datsun80zx/go_rss_aggregator.git/internal/commands"
 	"github.com/datsun80zx/go_rss_aggregator.git/internal/config"
+	_ "github.com/lib/pq"
 )
 
 func main() {
