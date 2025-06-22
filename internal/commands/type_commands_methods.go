@@ -6,7 +6,7 @@ import (
 	"github.com/datsun80zx/go_rss_aggregator.git/internal"
 )
 
-func (c *Commands) run(s *internal.State, cmd Command) error {
+func (c *Commands) Run(s *internal.State, cmd Command) error {
 	commandFunc, exists := c.Handlers[cmd.Name]
 	if !exists {
 		return errors.New("Command Not Found")
@@ -14,7 +14,7 @@ func (c *Commands) run(s *internal.State, cmd Command) error {
 	return commandFunc(s, cmd)
 }
 
-func (c *Commands) register(name string, f func(*internal.State, Command) error) error {
+func (c *Commands) Register(name string, f func(*internal.State, Command) error) error {
 	_, exists := c.Handlers[name]
 	if exists {
 		return errors.New("Command already registered")
