@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
@@ -8,6 +9,7 @@ import (
 	"github.com/datsun80zx/go_rss_aggregator.git/internal"
 	"github.com/datsun80zx/go_rss_aggregator.git/internal/commands"
 	"github.com/datsun80zx/go_rss_aggregator.git/internal/config"
+	"github.com/datsun80zx/go_rss_aggregator.git/internal/database"
 	_ "github.com/lib/pq"
 )
 
@@ -21,8 +23,15 @@ func main() {
 	// Print the initial config
 	fmt.Printf("Initial config: %+v\n", cfg)
 
+	db, err := sql.Open("postgres", cfg.DBUrl)
+	if err != nil {
+		log.Fatalf("Error opening database: %v", err)
+	}
+	dbQueries := database.New(db)
+
 	programState := internal.State{
-		Config: &cfg,
+		Config:   &cfg,
+		Database: dbQueries,
 	}
 
 	cmds := commands.Commands{

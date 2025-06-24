@@ -7,3 +7,7 @@ VALUES (
     $4
 )
 RETURNING *;
+
+-- name: GetUser :one
+SELECT * from users
+WHERE name = $1;
