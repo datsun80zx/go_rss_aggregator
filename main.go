@@ -43,6 +43,11 @@ func main() {
 		log.Fatalf("Error registering login command: %v", err)
 	}
 
+	err = cmds.Register("register", commands.HandlerRegister)
+	if err != nil {
+		log.Fatalf("Error registering register command: %v", err)
+	}
+
 	// parsing CLI arguments:
 	if len(os.Args) < 2 {
 		log.Fatalf("Not enough arguments provided")
