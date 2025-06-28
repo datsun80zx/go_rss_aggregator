@@ -48,6 +48,11 @@ func main() {
 		log.Fatalf("Error registering register command: %v", err)
 	}
 
+	err = cmds.Register("reset", commands.HandlerReset)
+	if err != nil {
+		log.Fatalf("Error registering reset command: %v", err)
+	}
+
 	// parsing CLI arguments:
 	if len(os.Args) < 2 {
 		log.Fatalf("Not enough arguments provided")
