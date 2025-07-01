@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
 
@@ -21,7 +20,7 @@ func main() {
 	}
 
 	// Print the initial config
-	fmt.Printf("Initial config: %+v\n", cfg)
+	// fmt.Printf("Initial config: %+v\n", cfg)
 
 	db, err := sql.Open("postgres", cfg.DBUrl)
 	if err != nil {
@@ -51,6 +50,11 @@ func main() {
 	err = cmds.Register("reset", commands.HandlerReset)
 	if err != nil {
 		log.Fatalf("Error registering reset command: %v", err)
+	}
+
+	err = cmds.Register("users", commands.HandlerUsers)
+	if err != nil {
+		log.Fatalf("Error registering users command: %v", err)
 	}
 
 	// parsing CLI arguments:
