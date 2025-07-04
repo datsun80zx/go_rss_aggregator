@@ -57,6 +57,11 @@ func main() {
 		log.Fatalf("Error registering users command: %v", err)
 	}
 
+	err = cmds.Register("agg", commands.HandlerAgg)
+	if err != nil {
+		log.Fatalf("Error registering agg command: %v", err)
+	}
+
 	// parsing CLI arguments:
 	if len(os.Args) < 2 {
 		log.Fatalf("Not enough arguments provided")
