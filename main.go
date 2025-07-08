@@ -62,6 +62,11 @@ func main() {
 		log.Fatalf("Error registering agg command: %v", err)
 	}
 
+	err = cmds.Register("addfeed", commands.HandlerAddFeed)
+	if err != nil {
+		log.Fatalf("Error registering addfeed command: %v", err)
+	}
+
 	// parsing CLI arguments:
 	if len(os.Args) < 2 {
 		log.Fatalf("Not enough arguments provided")
