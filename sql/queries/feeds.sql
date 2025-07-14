@@ -18,3 +18,10 @@ SELECT
 FROM feeds
 INNER JOIN users ON feeds.user_id = users.id
 ORDER BY feeds.name ASC;
+
+-- name: FetchFeed :one
+SELECT
+    feeds.name AS feed_name,
+    feeds.id AS feed_id
+FROM feeds
+WHERE feeds.url = $1;
