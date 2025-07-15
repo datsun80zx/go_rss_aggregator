@@ -77,6 +77,11 @@ func main() {
 		log.Fatalf("Error registering follow command: %v", err)
 	}
 
+	err = cmds.Register("following", commands.HandlerFollowing)
+	if err != nil {
+		log.Fatalf("Error registering following command: %v", err)
+	}
+
 	// parsing CLI arguments:
 	if len(os.Args) < 2 {
 		log.Fatalf("Not enough arguments provided")
