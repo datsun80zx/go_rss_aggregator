@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func HandlerAddFeed(s *internal.State, cmd Command) error {
+func HandlerAddFeed(s *internal.State, cmd Command, user database.User) error {
 	// Check that we have the required arguments
 	if len(cmd.Arguments) < 2 {
 		return fmt.Errorf("usage: addfeed <name> <url>")
@@ -20,16 +20,17 @@ func HandlerAddFeed(s *internal.State, cmd Command) error {
 	feedName := cmd.Arguments[0]
 	feedURL := cmd.Arguments[1]
 
-	// Get the current user from the database
-	currentUsername := s.Config.CurrentUser
-	if currentUsername == "" {
-		return fmt.Errorf("no user is currently logged in")
-	}
+	// // Get the current user from the config file
+	// currentUsername := s.Config.CurrentUser
+	// if currentUsername == "" {
+	// 	return fmt.Errorf("no user is currently logged in")
+	// }
 
-	user, err := s.Database.GetUser(context.Background(), currentUsername)
-	if err != nil {
-		return fmt.Errorf("couldn't get current user: %v", err)
-	}
+	// // Check if current user is in the database
+	// user, err := s.Database.GetUser(context.Background(), currentUsername)
+	// if err != nil {
+	// 	return fmt.Errorf("couldn't get current user: %v", err)
+	// }
 
 	// Create the feed parameters
 	feedParams := database.CreateFeedParams{

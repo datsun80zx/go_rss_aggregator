@@ -5,22 +5,23 @@ import (
 	"fmt"
 
 	"github.com/datsun80zx/go_rss_aggregator.git/internal"
+	"github.com/datsun80zx/go_rss_aggregator.git/internal/database"
 )
 
-func HandlerFollowing(s *internal.State, cmd Command) error {
-	// First get the username of the current user.
-	currentUsername := s.Config.CurrentUser
-	if currentUsername == "" {
-		return fmt.Errorf("no user currently logged in")
-	}
+func HandlerFollowing(s *internal.State, cmd Command, user database.User) error {
+	// // First get the username of the current user.
+	// currentUsername := s.Config.CurrentUser
+	// if currentUsername == "" {
+	// 	return fmt.Errorf("no user currently logged in")
+	// }
 
-	// Next I need to get the user id of that user from the users database so I can use that as the parameter for my query.
-	currentUser, err := s.Database.GetUser(context.Background(), currentUsername)
-	if err != nil {
-		return fmt.Errorf("there was an issue with finding current user: %v", err)
-	}
+	// // Next I need to get the user id of that user from the users database so I can use that as the parameter for my query.
+	// currentUser, err := s.Database.GetUser(context.Background(), currentUsername)
+	// if err != nil {
+	// 	return fmt.Errorf("there was an issue with finding current user: %v", err)
+	// }
 
-	followList, err := s.Database.GetFeedFollowsForUser(context.Background(), currentUser.ID)
+	followList, err := s.Database.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("error with retrieving feeds followed: %v", err)
 	}

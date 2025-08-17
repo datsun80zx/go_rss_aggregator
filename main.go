@@ -62,7 +62,7 @@ func main() {
 		log.Fatalf("Error registering agg command: %v", err)
 	}
 
-	err = cmds.Register("addfeed", commands.HandlerAddFeed)
+	err = cmds.Register("addfeed", commands.MiddlewareLoggedIn(commands.HandlerAddFeed))
 	if err != nil {
 		log.Fatalf("Error registering addfeed command: %v", err)
 	}
@@ -72,12 +72,17 @@ func main() {
 		log.Fatalf("Error registering feeds command: %v", err)
 	}
 
-	err = cmds.Register("follow", commands.HandlerFollow)
+	err = cmds.Register("follow", commands.MiddlewareLoggedIn(commands.HandlerFollow))
 	if err != nil {
 		log.Fatalf("Error registering follow command: %v", err)
 	}
 
-	err = cmds.Register("following", commands.HandlerFollowing)
+	err = cmds.Register("following", commands.MiddlewareLoggedIn(commands.HandlerFollowing))
+	if err != nil {
+		log.Fatalf("Error registering following command: %v", err)
+	}
+
+	err = cmds.Register("unfollow", commands.MiddlewareLoggedIn(commands.HandlerUnfollow))
 	if err != nil {
 		log.Fatalf("Error registering following command: %v", err)
 	}
