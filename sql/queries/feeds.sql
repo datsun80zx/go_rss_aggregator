@@ -25,3 +25,18 @@ SELECT
     feeds.id AS feed_id
 FROM feeds
 WHERE feeds.url = $1;
+
+-- name: GetNextFeedToFetch :one
+SELECT
+    feeds.url AS feeds_url,
+    feeds.id AS feeds_id
+FROM feeds
+ORDER BY feeds.last_fetched_at NULLS FIRST
+LIMIT 1;
+
+-- name: MarkFeedFetched :exec
+UPDATE feeds
+SET 
+    updated_at = $1,
+    last_fetched_at = $1
+WHERE feeds.id = $2;
