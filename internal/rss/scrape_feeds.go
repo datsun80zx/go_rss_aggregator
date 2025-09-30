@@ -8,6 +8,8 @@ import (
 
 	"github.com/datsun80zx/go_rss_aggregator.git/internal"
 	"github.com/datsun80zx/go_rss_aggregator.git/internal/database"
+	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 func ScrapeFeeds(ctx context.Context, s *internal.State) error {
@@ -42,7 +44,40 @@ func ScrapeFeeds(ctx context.Context, s *internal.State) error {
 
 	// print titles
 	for _, item := range rssFeed.Channel.Item {
-		fmt.Printf("\nArticle from: %v Title: %v\n", rssFeed.Channel.Title, item.Title)
+
+		itemPubTime := parseTime(item.PubDate)
+		itemDescription := sql.NullString{
+			String: item.Description,
+			Valid:  item.Description != "",
+		}
+		itemTitle := sql.NullString{
+			String: item.Title,
+			Valid:  item.Title != "",
+		}
+
+		newPost := database.CreatePostParams{
+			ID:          uuid.New(),
+			CreatedAt:   time.Now(),
+			UpdatedAt:   time.Now(),
+			Title:       itemTitle,
+			Url:         item.Link,
+			Description: itemDescription,
+			PublishedAt: itemPubTime,
+			FeedID:      markedFeed.ID,
+		}
+
+		_, err := s.Database.CreatePost(ctx, newPost)
+		if err != nil {
+			if pqErr, ok := err.(*pq.Error); ok {
+				if pqErr.Code == "23505" {
+					continue
+				}
+			}
+
+			return fmt.Errorf("failed to create post: %v", err)
+
+		}
+
 	}
 
 	return nil

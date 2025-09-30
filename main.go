@@ -84,7 +84,12 @@ func main() {
 
 	err = cmds.Register("unfollow", commands.MiddlewareLoggedIn(commands.HandlerUnfollow))
 	if err != nil {
-		log.Fatalf("Error registering following command: %v", err)
+		log.Fatalf("Error registering unfollow command: %v", err)
+	}
+
+	err = cmds.Register("browse", commands.MiddlewareLoggedIn(commands.HandlerBrowse))
+	if err != nil {
+		log.Fatalf("Error registering browse command: %v", err)
 	}
 
 	// parsing CLI arguments:
